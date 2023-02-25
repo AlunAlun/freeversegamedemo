@@ -98,7 +98,7 @@ public class CharacterSetup : MonoBehaviour
         
 
 
-        string query = "query {allAssets(condition: {ownerId: \"" +ConfigStatic.FV_id+"\"}) {nodes {id ownerId props }}}";
+        string query = "query {allAssets(condition: {universeId:42, ownerId: \"" +ConfigStatic.FV_id+"\"}) {nodes {id ownerId props }}}";
 
         GraphQLClient client = new GraphQLClient (ConfigStatic.FV_ApiUrl);
 

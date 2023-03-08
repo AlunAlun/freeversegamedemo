@@ -24,7 +24,7 @@ WebGLTemplates/Freeverse/bundle.js
 WebGLTemplates/Freeverse/index.html
 * mostly standard, but references bundle.js from above
 * loadAll function decrypts the encrypted key using the functions in bundle.js
-* line: *unityInstance.SendMessage("UserID", "SetFV_ID", theID);* sends decrypted web3 address to unity binary
+* line: *unityInstance.SendMessage("UserID", "SetFV_ID", theID);* sends decrypted web3 address to unity binary - this message is sent to an component of an object in the first scene, which then passes it to a singleton within the game.
 
 ## 2. Modifications to the Unity example
 
@@ -32,15 +32,16 @@ The following section discusses changes this example makes to the boilerplate de
 
 ### 2.1 Scenes
 
+MenuIntro.unity
+* GameObject UserID has ReceiveBrowserData component to receive web3 address from browser
+* modified to include a button to go to select character screen
+
 CharacterSelect.unity 
 * new scene which permits the player to select a character
 
 LegoTutorial.unity
 * modified to include all four character 'Minifigs' at startup, which are disabled/enabled based on selected character
 * modified GameManager object to include a new ConfigStatic component (see scripts section below)
-
-MenuIntro.unity
-* modified to include a button to go to select character screen
 
 ### 2.2 Scripts
 
@@ -69,3 +70,5 @@ Character/SceneCharacterActivator.cs
 * within LegoTutorialScene
 * reads ConfigStatic.cs, activates/deactivates relevant characters in scene, sets jump and speed parameters
 
+Character/ReceiveBrowserData.cs
+* attached to object in first scene, acts as a container for function that can be called from the browser js to pass the web3 address

@@ -7,7 +7,7 @@ using UnityEngine.Networking;
 using Newtonsoft.Json;
 
 /*
- * Classes for deserialing raw GraphQl response
+ * Classes for deserialing raw GraphQL response
  */
 public class AllAssets
 {
@@ -32,7 +32,7 @@ public class Root
 }
 
 /*
- * Classes for deserialing asset properties
+ * Classes for Deserialing asset properties
  */
 public class Attribute
 {
@@ -60,25 +60,25 @@ public class CharacterSetup : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //set user id
-
-        //default
-        
-            //ConfigStatic.FV_id = "0x47032f4dBCeD2dE3c267ee749e2E206268Ebaf06";
-            //ConfigStatic.FV_id = "0x2e8d99C867496ea899a19AFF0129841087ecF66B";
-            //ConfigStatic.FV_id = "0xA23c93D7C8FDf6C5136E3d4CdC0664AF9Ed7265B";
+        //test values, ignore these!
+        //ConfigStatic.FV_id = "0x47032f4dBCeD2dE3c267ee749e2E206268Ebaf06";
+        //ConfigStatic.FV_id = "0x2e8d99C867496ea899a19AFF0129841087ecF66B";
+        ConfigStatic.FV_id = "0xA23c93D7C8FDf6C5136E3d4CdC0664AF9Ed7265B";
 
         //Hide all character displays first
         foreach (CharacterDisplay cd in characterDisplays)
             cd.gameObject.SetActive(false);
 
+        //return if no user
         if (ConfigStatic.FV_id == null) {
             return;
         }
-            
+        
+        //deactivate default buttons
         loginButton.SetActive(false);
         marketButton.SetActive(false);
 
+        //make call to API
         StartCoroutine (QueryCall( (bool success) => {
             if (success)
             Debug.Log( "success!");
@@ -86,19 +86,12 @@ public class CharacterSetup : MonoBehaviour
             Debug.Log( "fail!");
         }));
     }
-    
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    //this function calls the Freeverse API (url in ConfigStatic.js) and get the assets
+    //that the current user has, within the universe of the game (universe ID also set in ConfigStatic.js)
     public IEnumerator QueryCall (System.Action<bool> callback) {
         
-
-
-        string query = "query {allAssets(condition: {universeId:42, ownerId: \"" +ConfigStatic.FV_id+"\"}) {nodes {id ownerId props }}}";
+        string query = "query {allAssets(condition: {universeId:"+ConfigStatic.FV_UniID+", ownerId: \"" +ConfigStatic.FV_id+"\"}) {nodes {id ownerId props }}}";
 
         GraphQLClient client = new GraphQLClient (ConfigStatic.FV_ApiUrl);
 
@@ -118,6 +111,7 @@ public class CharacterSetup : MonoBehaviour
         }
     }
 
+    //parses GraphQL response and gets information about character
     public void SetupCharacters(string responseString) 
     {
 
@@ -178,7 +172,6 @@ public class CharacterSetup : MonoBehaviour
                         break;
                 }
             }
-
             characterDisplays[i].gameObject.SetActive(true);
             characterDisplays[i].SetCharacter(newStyle, rootProps.name, newSpeed, newJump, root.data.allAssets.nodes[i].id);
         } 

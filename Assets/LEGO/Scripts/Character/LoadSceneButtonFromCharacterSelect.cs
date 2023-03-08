@@ -3,13 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+//this class handles stuff when user selects Play from character menu
 public class LoadSceneButtonFromCharacterSelect : MonoBehaviour
 {
 
     public void LoadScene()
     {
+        //get displayed character - this component contains all the info
         CharacterDisplay cd = GetComponentInParent<CharacterDisplay>();
 
+        //get jump and speed stats and pass to game config
+        ConfigStatic.SceneCharacterSpeed = float.Parse(cd.m_speed);
+        ConfigStatic.SceneCharacterJump = float.Parse(cd.m_jump);
+
+        // get character style
         switch(cd.m_characterStyle) {
             case CharacterStyle.Pizza:
                 ConfigStatic.SceneCharacter = "pizza";

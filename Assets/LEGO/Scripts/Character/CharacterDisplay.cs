@@ -33,25 +33,17 @@ public class CharacterDisplay : MonoBehaviour
     void Start()
     {
         m_Image = GetComponent<Image>();
-        //default value
-        m_speed = "5";
-        m_jump = "1";
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        // if (Input.GetKey(KeyCode.Space))
-        // {
-        //     m_Image.sprite = m_adventurer;
-        // }
+        //default values
     }
 
     public void SetCharacter(CharacterStyle new_style, string name, string speed, string jump, string id) {
+
+        
         m_characterStyle = new_style;
         m_speed = speed;
         m_jump = jump;
         m_id = id;
+
         m_Image = GetComponent<Image>();
 
         switch (m_characterStyle) {

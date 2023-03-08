@@ -24,7 +24,7 @@ WebGLTemplates/Freeverse/bundle.js
 WebGLTemplates/Freeverse/index.html
 * mostly standard, but references bundle.js from above
 * loadAll function decrypts the encrypted key using the functions in bundle.js
-* line: '''unityInstance.SendMessage("UserID", "SetFV_ID", theID);''' sends decrypted web3 address to unity binary
+* line: *unityInstance.SendMessage("UserID", "SetFV_ID", theID);* sends decrypted web3 address to unity binary
 
 ## 2. Modifications to the Unity example
 

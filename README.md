@@ -1,4 +1,4 @@
-# freeversegamedemo
+# Freeverse Marketplace <-> Unity WebGL game example
 
 This is the basic example provided free by Unity, modified to load assets belonging to a user's web3 address into the game, so that they can be used by the player.
 

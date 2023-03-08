@@ -4,7 +4,15 @@ This is the basic example provided free by Unity, modified to load assets belong
 
 You can see a demo of it running here: https://demo.games.gorengine.com/
 
-## Passing the user's web3 address from the marketplace to the unity binary
+## Super quickstart guide
+
+If you're short on time, read:
+
+*Section 1* to get web3 address from the Freeverse marketplace into a Unity WebGL application
+
+*Section 2.2* - particularly GraphQL.cs and CharacterSetup.cs for how to read Freeverse API from within Unity
+
+## 1. Passing the user's web3 address from the marketplace to the unity binary
 
 The user logs into the Freeverse webmarket, and when clicking the Play button the game is loaded within an iframe. The web3 address of the user logged into the marketplace is passed in encrypted form as a url parameter to the iframe.
 
@@ -18,11 +26,11 @@ WebGLTemplates/Freeverse/index.html
 * loadAll function decrypts the encrypted key using the functions in bundle.js
 * line: '''unityInstance.SendMessage("UserID", "SetFV_ID", theID);''' sends decrypted web3 address to unity binary
 
-## Modifications to the Unity example
+## 2. Modifications to the Unity example
 
 The following section discusses changes this example makes to the boilerplate demo provided by Unity.
 
-## Scenes
+### 2.1 Scenes
 
 CharacterSelect.unity 
 * new scene which permits the player to select a character
@@ -34,14 +42,13 @@ LegoTutorial.unity
 MenuIntro.unity
 * modified to include a button to go to select character screen
 
-## Scripts
+### 2.2 Scripts
 
 ConfigStatic.cs
 * Static configuration file, stores freeverse API URL, universe ID, and character variables to be passed from CharacterSelect scene to LegoTutorial scene
 
 Character/GraphQL.cs
 * super simple GraphQL client for Unity, doesn't even support variables! 
-
 
 Character/CharacterSetup.cs
 * Contains classes for receiving parsed GraphQL data. Recommend using https://json2csharp.com/ to create these classes.

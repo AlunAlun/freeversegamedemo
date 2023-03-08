@@ -8,9 +8,9 @@ You can see a demo of it running here: https://demo.games.gorengine.com/
 
 If you're short on time, read:
 
-*Section 1* to get web3 address from the Freeverse marketplace into a Unity WebGL application
+**Section 1** for to get a web3 address from the Freeverse marketplace into a Unity WebGL application
 
-*Section 2.2* - particularly GraphQL.cs and CharacterSetup.cs for how to read Freeverse API from within Unity
+**Section 2.2** - particularly GraphQL.cs and CharacterSetup.cs for how to read Freeverse API from within Unity
 
 ## 1. Passing the user's web3 address from the marketplace to the unity binary
 

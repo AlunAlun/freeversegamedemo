@@ -96,6 +96,19 @@ public class CharacterSetup : MonoBehaviour
         }));
     }
 
+
+    //this launches a query to get all the assets that belong to a user within a universe
+    //sample query (for testing purposes in playground)
+    // query {
+    //     getUserAssets(
+    //         web3Address: "0xA23c93D7C8FDf6C5136E3d4CdC0664AF9Ed7265B", universe: 42)
+    //     { 
+    //         totalCount 
+    //         nodes {
+    //         assetid
+    //         }
+    //     }
+    // }
     public IEnumerator GetUserAssetsQuery(System.Action<bool> callback) {
 
         string query = "query {getUserAssets(web3Address:\"" +ConfigStatic.FV_id+"\", universe: "+ConfigStatic.FV_UniID+") { totalCount nodes {assetid}}}";
@@ -149,9 +162,19 @@ public class CharacterSetup : MonoBehaviour
 
     //this function calls the Freeverse API (url in ConfigStatic.js) and get the assets
     //that the current user has, within the universe of the game (universe ID also set in ConfigStatic.js)
+    //sample query that we are generating (to help with testing)
+    // query{
+    //     allAssets(filter: {universeId: {equalTo: 42}, id: {in: ["1134950567312040801128635088679803013968596423060400038818152929013510", "1134950567312040801838924884422621832215587251760513586370936144899846", "2632807291713930484661802709217990887905679944210904888334973731047",]}}){
+    //         nodes{
+    //         id
+    //         ownerId
+    //         props
+    //         universeId
+    //         }
+    //     } 
+    // }
     public IEnumerator GetAssetPropsQuery (System.Action<bool> callback, List<string> assetIDs) {
         
-        //string query = "query {allAssets(condition: {universeId:"+ConfigStatic.FV_UniID+", ownerId: \"" +ConfigStatic.FV_id+"\"}) {nodes {id ownerId props }}}";
 
         string query = "query{allAssets(filter: {universeId: {equalTo: "+ConfigStatic.FV_UniID+"}, id: {in: [";
         

@@ -14,9 +14,16 @@ public class AllAssets
     public List<Node> nodes { get; set; }
 }
 
+public class GetUserAssets
+{
+    public int totalCount { get; set; }
+    public List<Node> nodes { get; set; }
+}
+
 public class Data
 {
     public AllAssets allAssets { get; set; }
+    public GetUserAssets getUserAssets { get; set; }
 }
 
 public class Node
@@ -24,6 +31,8 @@ public class Node
     public string id { get; set; }
     public string ownerId { get; set; }
     public string props { get; set; }
+    public string assetid { get; set; }
+    public string state { get; set; }
 }
 
 public class Root
@@ -79,7 +88,7 @@ public class CharacterSetup : MonoBehaviour
         marketButton.SetActive(false);
 
         //make call to API
-        StartCoroutine (QueryCall( (bool success) => {
+        StartCoroutine (GetUserAssetsQuery( (bool success) => {
             if (success)
             Debug.Log( "success!");
             else
@@ -87,11 +96,71 @@ public class CharacterSetup : MonoBehaviour
         }));
     }
 
+    public IEnumerator GetUserAssetsQuery(System.Action<bool> callback) {
+
+        string query = "query {getUserAssets(web3Address:\"" +ConfigStatic.FV_id+"\", universe: "+ConfigStatic.FV_UniID+") { totalCount nodes {assetid}}}";
+
+        GraphQLClient client = new GraphQLClient (ConfigStatic.FV_ApiUrl);
+
+        using( UnityWebRequest www = client.Query(query, "{}", "")) {
+            yield return www.SendWebRequest();
+
+            if (www.result == UnityWebRequest.Result.ConnectionError) {
+                Debug.Log (www.error);
+
+                callback (false);
+            } else {
+
+                //Deserialize query
+                Root allUserAssets = JsonConvert.DeserializeObject<Root>(www.downloadHandler.text);
+
+                //extract list of asset ids that belong to user
+                List<string> listOfIDs = getListofAssetIDs(allUserAssets);
+                Debug.Log(listOfIDs);
+
+                //Make new query to get asset properties
+                StartCoroutine (GetAssetPropsQuery( (bool success) => {
+                    if (success)
+                    Debug.Log( "successTWO!");
+                    else
+                    Debug.Log( "failTWO!");
+                },
+                listOfIDs));
+
+                callback (true);
+                
+            }
+        }
+    }
+
+    List<string> getListofAssetIDs(Root allUserAssets) {
+        List<string> listOfIDs = new List<string>();
+        
+        int numAssets = allUserAssets.data.getUserAssets.totalCount;
+        for (int i = 0; i < numAssets; i ++) {
+            string currID = allUserAssets.data.getUserAssets.nodes[i].assetid;
+            listOfIDs.Add(currID);
+        }
+        return listOfIDs;
+    }
+
+
+
+
     //this function calls the Freeverse API (url in ConfigStatic.js) and get the assets
     //that the current user has, within the universe of the game (universe ID also set in ConfigStatic.js)
-    public IEnumerator QueryCall (System.Action<bool> callback) {
+    public IEnumerator GetAssetPropsQuery (System.Action<bool> callback, List<string> assetIDs) {
         
-        string query = "query {allAssets(condition: {universeId:"+ConfigStatic.FV_UniID+", ownerId: \"" +ConfigStatic.FV_id+"\"}) {nodes {id ownerId props }}}";
+        //string query = "query {allAssets(condition: {universeId:"+ConfigStatic.FV_UniID+", ownerId: \"" +ConfigStatic.FV_id+"\"}) {nodes {id ownerId props }}}";
+
+        string query = "query{allAssets(filter: {universeId: {equalTo: "+ConfigStatic.FV_UniID+"}, id: {in: [";
+        
+        foreach(string s in assetIDs) {
+            query += "\""+s+"\",";
+        }
+        
+        query += "]}}){nodes{id ownerId props}}}";
+        Debug.Log(query);
 
         GraphQLClient client = new GraphQLClient (ConfigStatic.FV_ApiUrl);
 

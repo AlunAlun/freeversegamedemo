@@ -63,7 +63,7 @@ public class CharacterSetup : MonoBehaviour
         //test values, ignore these!
         //ConfigStatic.FV_id = "0x47032f4dBCeD2dE3c267ee749e2E206268Ebaf06";
         //ConfigStatic.FV_id = "0x2e8d99C867496ea899a19AFF0129841087ecF66B";
-        ConfigStatic.FV_id = "0xA23c93D7C8FDf6C5136E3d4CdC0664AF9Ed7265B";
+        //ConfigStatic.FV_id = "0xA23c93D7C8FDf6C5136E3d4CdC0664AF9Ed7265B";
 
         //Hide all character displays first
         foreach (CharacterDisplay cd in characterDisplays)

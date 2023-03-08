@@ -53,8 +53,9 @@ Character/GraphQL.cs
 Character/CharacterSetup.cs
 * Contains classes for receiving parsed GraphQL data. Recommend using https://json2csharp.com/ to create these classes.
 * Recommend testing queries first in GraphQL playground of FreeverseAPI
-* Contains query for getting assets belonging to web3 address of user
-* Parses this query and passes information to CharacterDisplay component
+* FIRST QUERY: gets optimistic list of assets belonging to web3 address of user
+* SECOND QUERY: uses this list to query API for properties of these assets
+* Parses second query and passes information (character type, speed, jump) to CharacterDisplay component 
 
 Character/CharacterDisplay.cs
 * Fills information on each character within the elements in the scene

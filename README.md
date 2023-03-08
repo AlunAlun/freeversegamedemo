@@ -10,6 +10,14 @@ The user logs into the Freeverse webmarket, and when clicking the Play button th
 
 In this example, the web3 address is decrypted within the javascript of the Unity web player, though a more secure solution would be to do this decryption within the Unity binary using Nethereum.
 
+WebGLTemplates/Freeverse/bundle.js
+* Browserfied bundle created from main.js in this repo: https://github.com/AlunAlun/eth-crypto-local
+
+WebGLTemplates/Freeverse/index.html
+* mostly standard, but references bundle.js from above
+* loadAll function decrypts the encrypted key using the functions in bundle.js
+* line: '''unityInstance.SendMessage("UserID", "SetFV_ID", theID);''' sends decrypted web3 address to unity binary
+
 ## Modifications to the Unity example
 
 The following section discusses changes this example makes to the boilerplate demo provided by Unity.

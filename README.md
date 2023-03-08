@@ -4,7 +4,7 @@ This is the basic example provided free by Unity, modified to load assets belong
 
 You can see a demo of it running here: https://demo.games.gorengine.com/
 
-## Passing the user's web3 address from the marketplace to the unity binary.
+## Passing the user's web3 address from the marketplace to the unity binary
 
 The user logs into the Freeverse webmarket, and when clicking the Play button the game is loaded within an iframe. The web3 address of the user logged into the marketplace is passed in encrypted form as a url parameter to the iframe.
 
